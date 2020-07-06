@@ -9,7 +9,7 @@
 ////API host link
 
 $app_name="FunnyVO";
-$apiURL="http://www.funnyvo.com.s3-website.ap-south-1.amazonaws.com/api/";
+$apiURL="http://localhost/FunnyVO-API/API/";
 $baseurl = $apiURL."index.php?p=";
 
 $app_picture="img/favicon.png";
@@ -81,9 +81,9 @@ if( isset($_GET['login']) ) { //log
 			$curl_error = curl_error($ch);
 			$http_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
 
-			//echo $json_data['code'];
-			//print_r($json_data['code']);
-			//die();
+			// echo $json_data['code'];
+			// print_r($json_data['code']);
+			// die();
 			
 			curl_close($ch);
 
