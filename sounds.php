@@ -320,142 +320,91 @@ if( isset($_SESSION['id']))
         		} else {
         			?>
         			
-        			<?php 
-        			
-        			$rows = count($json_data['msg']);
-        			if( $rows == 0 ) {
-        				?>
-        				<div class="textcenter nothingelse">
-        					<img src="img/noorder.png" alt="" />
-        					<h3>No Record Found1</h3>
-        				</div>
-        				<?php
-        			}
-        			
-        			foreach( $json_data['msg'] as $str => $val ) 
-        			{
-        			    ?>
-        			        <div style="width: 230px;border: solid 1px #d4d4d4;float: left;margin:0 8px 10px 0;background: white;border-radius: 4px;">
-        			            <div style="background:url(<?php echo $val['thum']; ?>); height: 60px;width: 60px;background-size: cover;float: left;"></div>
-        			            <h3 style="float: left;margin: 5px 0 0 5px;font-weight: 400;width: 135px;overflow: hidden;"><?php echo substr($val['sound_name'],0,15);?>...</h3>
-        			            <p style="float: left;width: 155px;margin:0px 0 5px 5px;"><?php echo substr($val['description'],0,25);?>...</p>
-        			            <span id="playPauseBtn_<?php echo $val['id']; ?>" style="margin: 0 0 0 -200px;position: absolute;width: 60px;height: 60px;background: #03030380;text-align: center;">
-    			                    <img src="img/play.png" onclick="playsound('<?php echo $val['id']; ?>')" style="width: 30px;margin-top: 15px;">
-    			                </span>
-        			            <span id='preview_play_<?php echo $val['id']; ?>' style="display:none;"></span>
-        			            <div style="float: left;">
-        			                <a href="?p=sounds&page=sound&action=deleteSound&id=<?php echo $val['id']; ?>" style="color: #969696;text-decoration: none;margin:0px 0 0 5px;">
+					<?php 
+			
+			$rows = count($json_data['msg']);
+			if( $rows == 0 ) {
+				?>
+				<div class="textcenter nothingelse">
+					<img src="img/noorder.png" alt="" />
+					<h3>No Record Found1</h3>
+				</div>
+				<?php
+			}
+			echo "<table id='data1' class='display' style='width:100%''>
+			<thead>
+	            <tr>
+	                <th>Sound Name</th>
+	                <th>Description </th>
+	                <th>Sound Url </th>
+	                <th>Created</th>
+	                <th>Action</th>
+	            </tr>
+	        </thead>
+			<tbody id='myTable_row'>";
+			
+			foreach( $json_data['msg'] as $str => $val ) {
+				//var_dump($val);
+				?>
+				<tr style=" text-align: center;">
+					
+					<td style="line-height: 20px;">
+						<?php 
+							echo $val['sound_name'];
+						?>		
+					</td>
+					<td>
+						<?php echo $val['description'];  ?>
+					</td>
+					<td>
+						<?php echo $val['sound_url'];  ?>
+					</td>
+					
+				    <td>
+						<?php 
+							echo $val['created']; 
+						?>
+					</td>
+					<td>
+					    <div class="more">
+                            <button id="more-btn" class="more-btn">
+                                <span class="more-dot"></span>
+                                <span class="more-dot"></span>
+                                <span class="more-dot"></span>
+                            </button>
+                            <div class="more-menu">
+                                <div class="more-menu-caret">
+                                    <div class="more-menu-caret-outer"></div>
+                                    <div class="more-menu-caret-inner"></div>
+                                </div>
+                                <ul class="more-menu-items" tabindex="-1" role="menu" aria-labelledby="more-btn" aria-hidden="true">
+									<a href="?p=sounds&page=sound&action=deleteSound&id=<?php echo $val['id']; ?>" style="color: #969696;text-decoration: none;margin:0px 0 0 5px;">
                                         <span class="far fa-trash-alt"></span>
                                         Delete
                                     </a>
-                                    
-                                    <!--<a href="#" style="color: #969696;text-decoration: none;margin:0px 0 0 5px;">-->
-                                    <!--    <span class="far fa-edit"></span>-->
-                                    <!--    Edit-->
-                                    <!--</a>-->
-        			            </div>
-        			            
-        			        </div>
-        			        
-        			    <?php
-        			}
-        			
-        // 			echo '<div style="clear:both;"></div>';
-        				
-        // 			echo "<table id='data1' class='display' style='width:100%''>
-        // 			<thead>
-        // 	            <tr>
-        // 	                <th>ID</th>
-        // 	                <th>Sound Preview</th>
-        // 	                <th>Sound Name</th>
-        // 	                <th>Description</th>
-        // 	                <td>Section</th>
-        // 	                <th>Created</th>
-        // 	                <th>Action</th>
-        // 	            </tr>
-        // 	        </thead>
-        // 			<tbody id='myTable_row'>";
-        			
-        // 			foreach( $json_data['msg'] as $str => $val ) {
-        				//var_dump($val);
-        				
-        				?>
-        				<!--<tr style=" text-align: center; display:none;">-->
-        				<!--	<td>-->
-        						<?php 
-        							//echo $val['id']; 
-        						?>
-        				<!--	</td>-->
-        					<!--<td id='preview_play_<?php echo $val['id']; ?>' >-->
-        					<!--    <span onclick="playsound('<?php echo $val['id']; ?>')"><img src="img/play.png" style="width: 30px;"></span>-->
-        					<!--</td>-->
-        				<!--	<td style="line-height: 20px;">-->
-        						<?php 
-        						//	echo $val['sound_name'];
-        						?>		
-        				<!--	</td>-->
-        				<!--	<td>-->
-        						<?php //echo $val['description'];  ?>
-        				<!--	</td>-->
-        					
-        				<!--	<td>-->
-        						<?php //echo $val['section'];  ?>
-        				<!--	</td>-->
-        					
-        				<!--    <td>-->
-        						<?php 
-        							//echo $val['created']; 
-        						?>
-        				<!--	</td>-->
-        				<!--	<td>-->
-        				<!--	    <div class="more">-->
-            <!--                        <button id="more-btn" class="more-btn">-->
-            <!--                            <span class="more-dot"></span>-->
-            <!--                            <span class="more-dot"></span>-->
-            <!--                            <span class="more-dot"></span>-->
-            <!--                        </button>-->
-            <!--                        <div class="more-menu">-->
-            <!--                            <div class="more-menu-caret">-->
-            <!--                                <div class="more-menu-caret-outer"></div>-->
-            <!--                                <div class="more-menu-caret-inner"></div>-->
-            <!--                            </div>-->
-            <!--                            <ul class="more-menu-items" tabindex="-1" role="menu" aria-labelledby="more-btn" aria-hidden="true">-->
-                                            
-            <!--                                <a href="?p=sounds&page=sound&action=deleteSound&id=<?php echo $val['id']; ?>" style="color: red;text-decoration: none;">-->
-            <!--                                    <li class="more-menu-item" role="presentation">-->
-            <!--                                        <button type="button" class="more-menu-btn" role="menuitem">Delete</button>-->
-            <!--                                    </li>-->
-            <!--                                </a>-->
-                                            
-            <!--                            </ul>-->
-            <!--                        </div>-->
-            <!--                    </div>-->
-        				<!--	</td>-->
-        					
-        					
-        					
-        				<!--</tr>-->
-        				<?php
-        // 			}
-        // 			echo "</tbody>
-        // 			<tfoot>
-        // 	            <tr>
-        // 	                <th>ID</th>
-        // 	                <th>thum</th>
-        // 	                <th>Sound Name</th>
-        // 	                <th>Description</th>
-        // 	                <td>Section</th>
-        // 	                <th>Created</th>
-        // 	                <th>Action</th>
-        // 	            </tr>
-        // 	        </tfoot>
-        // 	        </table> <nav><ul class='pagination pagination-sm' id='myPager'></ul></nav>";
-        			///
-        		}
-        
-        		curl_close($ch);
-    	    
-    	}
+                                </ul>
+                            </div>
+                        </div>  
+					</td>
+				</tr>
+				<?php
+			}
+			echo "</tbody>
+			<tfoot>
+	            <tr>
+	                <th>Sound Name</th>
+	                <th>Descritpion</th>
+	                <th>Sound Url</th>
+	                <th>Created</th>
+	                <th>Action</th>
+	            </tr>
+	        </tfoot>
+	        </table> <nav><ul class='pagination pagination-sm' id='myPager'></ul></nav>";
+			///
+		}
+
+		curl_close($ch);
+		}
     	else
     	if(@$_GET['page']=="sections")
     	{
