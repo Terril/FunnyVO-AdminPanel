@@ -8,14 +8,88 @@
 </head>
 <?php 
 
-
-require_once("../config.php");
+require_once '../config.php';
 require_once 'aws.phar';
 use Aws\S3\S3Client;
 use Aws\S3\Exception\S3Exception;
 
-?>
 
+function upload()
+{
+    $sound_name = $_POST['sound_name'];
+    $description = $_POST['description'];
+    $section_id = $_POST['section_id'];
+    $soundtmpfile = $_FILES['fileToUpload']['tmp_name'];
+    $soundfilename = $_FILES['fileToUpload']['name'];
+    $sound_url = uploadFileOnS3('sounds/', $soundtmpfile, $soundfilename);
+     
+
+    if ($sound_name != "" && $description != "" && $section_id != "" && $sound_url != "") {
+        $headers = array(
+            "Accept: application/json",
+            "Content-Type: application/json"
+        );
+
+        $data = array(
+            "sound_name" => $sound_name,
+            "description" => $description,
+            "section" => $section_id,
+            "sound_url" => $sound_url,
+        );
+        $ch = curl_init(BASE_URL.'storeAudioData' );
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'POST');
+        curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($data));
+        curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+
+        $return = curl_exec($ch);
+
+        $json_data = json_decode($return, true);
+
+        $curl_error = curl_error($ch);
+        $http_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+
+        echo "<script>window.location='".ADMIN_BASE_URL."dashboard.php?p=sounds&page=sound&action=success'</script>";
+        
+    } else {
+        echo "<script>window.location='".ADMIN_BASE_URL."dashboard.php?p=sounds&page=sound&action=success'</script>";
+    }
+}
+if (!empty($_POST["send"])) {
+    // print("aksahk");
+    // die;
+    upload();
+}
+
+function uploadFileOnS3($folder, $tmpfile, $filename)
+{
+
+    $bucket = AWS_S3_BUCKET;
+    $s3 = new S3Client([
+        'version' => 'latest',
+        'region' => AWS_S3_REGION,
+        'credentials' => array(
+            'key' => AWS_S3_KEY,
+            'secret' => AWS_S3_SECRET
+        )
+    ]);
+
+    try {
+        // Upload data.
+        $result = $s3->putObject([
+            'Bucket' => $bucket,
+            'Key' => $folder . $filename,
+            'SourceFile' => $tmpfile,
+        ]);
+
+        // Print the URL to the object.
+        return $result['ObjectURL'];
+    } catch (S3Exception $e) {
+        echo $e->getMessage();
+        die;
+    }
+}
+?>
 <body>
     <!-- <div id="contact-icon">
         <img src="./icon/icon-contact.png" alt="contact" height="50"
@@ -55,7 +129,9 @@ use Aws\S3\Exception\S3Exception;
                 </div>
                 <div>
                     <?php
-                    $ch = curl_init('http://localhost/FunnyVO-API/API/index.php?p=admin_getSoundSection');
+                    $data=[];
+                    $headers=[];
+                    $ch = curl_init(BASE_URL.'admin_getSoundSection' );//curl_init('http://localhost/FunnyVO-API/API/index.php?p=admin_getSoundSection');
                     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
                     curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'POST');
                     curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($data));
@@ -90,85 +166,7 @@ use Aws\S3\Exception\S3Exception;
             <input type="submit" id="send" name="send" value="Send" />
         </form>
     </div>
-    <?php
-
-    function upload()
-    {
-        $sound_name = $_POST['sound_name'];
-        $description = $_POST['description'];
-        $section_id = $_POST['section_id'];
-        $soundtmpfile = $_FILES['fileToUpload']['tmp_name'];
-        $soundfilename = $_FILES['fileToUpload']['name'];
-        $sound_url = uploadFileOnS3('sounds/', $soundtmpfile, $soundfilename);
-        // print($sound_url);
-        // die;
-
-        if ($sound_name != "" && $description != "" && $section_id != "" && $sound_url != "") {
-            $headers = array(
-                "Accept: application/json",
-                "Content-Type: application/json"
-            );
-
-            $data = array(
-                "sound_name" => $sound_name,
-                "description" => $description,
-                "section" => $section_id,
-                "sound_url" => $sound_url,
-            );
-            $ch = curl_init('http://localhost/FunnyVO-API/API/index.php?p=storeAudioData');
-            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-            curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'POST');
-            curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($data));
-            curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
-
-            $return = curl_exec($ch);
-
-            $json_data = json_decode($return, true);
-
-            $curl_error = curl_error($ch);
-            $http_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-
-			echo "<script>window.location='http://localhost/FunnyVO-AdminPanel/dashboard.php?p=sounds&page=soundGallary&action=success'</script>";
-			
-        } else {
-            echo "<script>window.location='dashboard.php?p=sounds&page=soundGallary&action=error'</script>";
-        }
-    }
-    if (!empty($_POST["send"])) {
-        // print("aksahk");
-        // die;
-        upload();
-    }
-
-    function uploadFileOnS3($folder, $tmpfile, $filename)
-    {
-
-        $bucket = AWS_S3_BUCKET;
-        $s3 = new S3Client([
-            'version' => 'latest',
-            'region' => AWS_S3_REGION,
-            'credentials' => array(
-                'key' => AWS_S3_KEY,
-                'secret' => AWS_S3_SECRET
-            )
-        ]);
-
-        try {
-            // Upload data.
-            $result = $s3->putObject([
-                'Bucket' => $bucket,
-                'Key' => $folder . $filename,
-                'SourceFile' => $tmpfile,
-            ]);
-
-            // Print the URL to the object.
-            return $result['ObjectURL'];
-        } catch (S3Exception $e) {
-            echo $e->getMessage();
-            die;
-        }
-    }
-    ?>
+    
 
 </body>
 

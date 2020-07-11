@@ -247,7 +247,7 @@ if( isset($_SESSION['id']))
         {
             ?>
                 <div class="right" style="padding: 10px 0;">
-                    <a href="uploadSound/" target="_blank">
+                    <a href="uploadSound/">
             			<button style="background:  #C82D32; color:  white; padding:  8px 8px; border:  0px; border-radius:  3px;">Add Sound File</button>
                     </a>
                 </div>
@@ -344,7 +344,7 @@ if( isset($_SESSION['id']))
 			<tbody id='myTable_row'>";
 			
 			foreach( $json_data['msg'] as $str => $val ) {
-				//var_dump($val);
+				
 				?>
 				<tr style=" text-align: center;">
 					
@@ -357,7 +357,7 @@ if( isset($_SESSION['id']))
 						<?php echo $val['description'];  ?>
 					</td>
 					<td>
-						<?php echo $val['sound_url'];  ?>
+						<?php echo $val['sound_url']; ?>
 					</td>
 					
 				    <td>

@@ -11,6 +11,10 @@
 $app_name="FunnyVO";
 $apiURL="http://localhost/FunnyVO-API/API/";
 $baseurl = $apiURL."index.php?p=";
+$admin_base_url="http://localhost/FunnyVO-AdminPanel/";
+define('API_URL',$apiURL);
+define('BASE_URL',$baseurl);
+define('ADMIN_BASE_URL',$admin_base_url);
 define('AWS_S3_KEY', 'AKIAWMO3KKFTPD4KNJQS');
 define('AWS_S3_SECRET', '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');
 define('AWS_S3_REGION', 'ap-south-1');
