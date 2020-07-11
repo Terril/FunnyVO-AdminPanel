@@ -11,6 +11,10 @@
 $app_name="FunnyVO";
 $apiURL="http://localhost/FunnyVO-API/API/";
 $baseurl = $apiURL."index.php?p=";
+define('AWS_S3_KEY', 'AKIAWMO3KKFTPD4KNJQS');
+define('AWS_S3_SECRET', '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');
+define('AWS_S3_REGION', 'ap-south-1');
+define('AWS_S3_BUCKET', 'beta.funnyvo.com');
 
 $app_picture="img/favicon.png";
 

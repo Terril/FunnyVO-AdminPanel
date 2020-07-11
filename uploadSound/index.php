@@ -1,298 +1,175 @@
-<?php
-require_once("../config.php"); 
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Upload Sound File</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.js" integrity="sha512-WNLxfP/8cVYL9sj8Jnp6et0BkubLP31jhTG9vhL/F5uEZmg5wEzKoXp1kJslzPQWwPT1eyMiSxlKCgzHLOTOTQ==" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="pop_style.css" />
+</head>
+<?php 
 
 
-
-if(@$_GET['submit_video']=="ok")
-{   
-    $alltitles=@$_POST['title'];
-    $alltags=@$_POST['tagss'];
-    $allurl=@$_POST['url'];
-    $allSection=@$_POST['section_name'];
-    if($alltitles!="" && $alltags!="" && $allurl!="")
-    {
-        @require_once("../config.php");
-        $length = count($alltitles);
-        for ($i = 0; $i < $length; $i++) 
-        {
-    
-            $headers = array(
-    			"Accept: application/json",
-    			"Content-Type: application/json"
-    		);
-    
-    		$data = array(
-    			"fileUrl" => $allurl[$i],
-    			"sound_name" => $alltitles[$i],
-    			"description" => $alltags[$i],
-    			"section_name" => $allSection[$i]
-    		);
-    
-    		$ch = curl_init( $baseurl.'admin_uploadSound' );
-            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-    		curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'POST');
-    		curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($data));
-    		curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
-    
-    		$return = curl_exec($ch);
-    
-    		$json_data = json_decode($return, true);
-    		
-    		$curl_error = curl_error($ch);
-    		$http_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-            
-            //echo count($json_data['msg']);
-            //print_r($json_data);
-    		//echo $json_data['code'];
-    		//die;
-            
-        	if($length==$i+1)
-    		{
-    		   echo "<script>window.location='index.php'</script>";
-    		}
-        }
-    }
-}
-
-
-            $headers = array(
-    			"Accept: application/json",
-    			"Content-Type: application/json"
-    		);
-    
-    		$data = array(
-    			"fileUrl" => $allurl[$i],
-    			"sound_name" => $alltitles[$i],
-    			"description" => $alltags[$i]
-    		);
-    
-    		$ch = curl_init( $baseurl.'admin_getSoundSection' );
-            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-    		curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'POST');
-    		curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($data));
-    		curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
-    
-    		$return = curl_exec($ch);
-    
-    		$json_data = json_decode($return, true);
-    		
-    		$curl_error = curl_error($ch);
-    		$http_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-            
-            $secton_form="";
-            foreach( $json_data['msg'] as $str => $val ) 
-            {
-                $secton_form.='<option value='.$val['section_name'].'>'.$val['section_name'].'</option>';
-            }
-            
-            $secton_form;
-            
+require_once("../config.php");
+require_once 'aws.phar';
+use Aws\S3\S3Client;
+use Aws\S3\Exception\S3Exception;
 
 ?>
 
+<body>
+    <!-- <div id="contact-icon">
+        <img src="./icon/icon-contact.png" alt="contact" height="50"
+            width="50">
+    </div> -->
+    <!--Contact Form-->
+    <div id="contact-pop">
+        <form class="contact-form" action="" id="contact-form" method="post" enctype="multipart/form-data">
+            <h1>Upload File</h1>
+            <div>
+                <div>
+                    <label>Sound Name: </label><span id="userName-info" class="info"></span>
+                </div>
+                <div>
+                    <input type="text" id="sound_name" name="sound_name" class="inputBox" />
+                </div>
+            </div>
+            <div>
+                <div>
+                    <label>Description: </label><span id="userMessage-info" class="info"></span>
+                </div>
+                <div>
+                    <textarea id="description" name="description" class="inputBox"></textarea>
+                </div>
+            </div>
+            <div>
+                <div>
+                    <label>Sound File: </label><span id="userMessage-info" class="info"></span>
+                </div>
+                <div>
+                    <input type="file" class="inputBox" name="fileToUpload" id="fileToUpload">
+                </div>
+            </div>
+            <div>
+                <div>
+                    <label>Select Section: </label><span id="userName-info" class="info"></span>
+                </div>
+                <div>
+                    <?php
+                    $ch = curl_init('http://localhost/FunnyVO-API/API/index.php?p=admin_getSoundSection');
+                    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+                    curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'POST');
+                    curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($data));
+                    curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
 
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-<style>
+                    $return = curl_exec($ch);
 
-/* Container */
-body{
-	margin:0px; 
-	padding: 0px;
-	font-family: Arial;
-}
-.container {
-	display: block;
-	width: 600px;
-	background: #F9D48A;
-	border-radius: 6px;
-	line-height: normal;
-	margin: 20px auto;
-	border: dashed #1F2021;
+                    $json_data = json_decode($return, true);
 
-}
-
-.container1{
-
-    display: block;
-    width: 600px;
-    background: #fafbfd;
-    border-radius: 6px;
-    line-height: normal;
-    margin:20px auto;
-    padding: 40px 0px;
-}
-.container2
-{
-    display: block;
-    width: 600px;
-    margin:0px auto;
-}
-.button{
-   border: 0px;
-   background-color: deepskyblue;
-   color: white;
-   padding: 5px 15px;
-   margin-left: 10px;
-}
-
-
-.uploadedBox
-{
-    background: #F9D48A;
-	border-radius: 6px;
-	border: dashed #1F2021;
-	padding: 20px;
-}
-
-.uploadedBox input ,.uploadedBox select
-{
-    font-size: 12px; 
-    width: 100%; 
-    padding: 8px; 
-    border: 1px solid #d4d4d4;
-    margin-bottom:10px;
-}
+                    $curl_error = curl_error($ch);
+                    $http_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
 
 
-</style>
+                    if ($json_data['code'] == "200") {    ?>
+                    <select name="section_id" size="1" class="inputBox">
+                        <?php
+                        foreach ($json_data['msg'] as $str => $val) { ?>
+                        <option value="<?php echo $val['id']; ?>">
+                            <?php echo $val['section_name']; ?>
+                        </option>
+                        <?php
 
-<script>
+                    }
+                    ?>
+                    </select>
+                    <?php
 
+                }
+                ?>
+                </div>
+            </div>
+            <input type="submit" id="send" name="send" value="Send" />
+        </form>
+    </div>
+    <?php
 
-        function deleteImge(idd)
-		{   
-		    var xmlhttp;
-		    if(window.XMLHttpRequest)
-		      {// code for IE7+, Firefox, Chrome, Opera, Safari
-		        xmlhttp=new XMLHttpRequest();
-		      }
-		    else
-		      {// code for IE6, IE5
-		        xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
-		      }
-		      
-		      xmlhttp.onreadystatechange=function()
-		      {
-		        if(xmlhttp.readyState==4 && xmlhttp.status==200)
-		        {
-		           //alert(xmlhttp.responseText);
-		        }
-		      }
-		    xmlhttp.open("GET","delete.php?file_name="+idd);
-		    xmlhttp.send();  
-		    document.getElementById(idd).innerHTML = '';
-		    document.getElementById(idd).style.display = "none";
-		}
-		
-		
-            $(document).ready(function(){
+    function upload()
+    {
+        $sound_name = $_POST['sound_name'];
+        $description = $_POST['description'];
+        $section_id = $_POST['section_id'];
+        $soundtmpfile = $_FILES['fileToUpload']['tmp_name'];
+        $soundfilename = $_FILES['fileToUpload']['name'];
+        $sound_url = uploadFileOnS3('sounds/', $soundtmpfile, $soundfilename);
+        // print($sound_url);
+        // die;
 
-                //$("#but_upload").click(function(){
-                $('#file').change(function(){
+        if ($sound_name != "" && $description != "" && $section_id != "" && $sound_url != "") {
+            $headers = array(
+                "Accept: application/json",
+                "Content-Type: application/json"
+            );
 
-            	console.log($('#file')[0].files); 
-            	var fileCount = $('#file')[0].files.length;
-        
-                
-                $("#previewBox").show(); 
-            	for (i = 0; i < fileCount; i++) {
-        			
-        			//console.log($('#file')[0].files[i]['size']); 
-        
-        		    var fd = new FormData();
-        	        var files = $('#file')[0].files[i];
-        	        fd.append('file',files);
-                    
-        	        $.ajax({
-        	            url: 'upload.php',
-        	            type: 'post',
-        	            data: fd,
-        	            contentType: false,
-        	            processData: false,
-        	            success: function(response){
-        	                if(response != 0)
-        	                {
-        	                	var myarr = response.split(".");
-        	                	//$("#previews").append('<div id='+myarr[0]+' class="uploadedBox"><div><audio controls="controls" style="border-radius: 10px; width: 100%;"><source src="upload/'+response+'" type="audio/mp4" /></audio></div><div style="margin-top:20px;"><input type="text" name="title[]" placeholder="Sound Name" required><input type="text" name="tagss[]" placeholder="Description" required><input type="text" name="url[]" value=<?php echo $sound_baseurl; ?>'+response+' required></div><div><select name="section_name[]" required><option value="">Select Section</option><?php echo $secton_form; ?></select></div><div style="padding:10px 0; font-size:12px;">'+response+' &nbsp; | &nbsp;<span style="color:red;" onclick=deleteImge("'+myarr[0]+'")>Delete</span></div></div>'); // Display image element
-        	                    $("#previews").append('<div id='+myarr[0]+' class="uploadedBox"><div><audio controls="controls" style="border-radius: 10px; width: 100%;"><source src="upload/'+response+'" type="audio/mp4" /></audio></div><div style="padding:10px 0; font-size:12px;">'+response+' &nbsp; | &nbsp;<span style="color:red;" onclick=deleteImge("'+myarr[0]+'")>Delete</span></div></div>');
-        	                    //$("#img").attr("src",response); 
-        	                    //$(".preview img").show(); // Display image element
-        
-        	                }
-        	                else
-        	                {
-        	                    alert('Upload only AAC');
-        	                }
-        	            },
-        	        });
+            $data = array(
+                "sound_name" => $sound_name,
+                "description" => $description,
+                "section" => $section_id,
+                "sound_url" => $sound_url,
+            );
+            $ch = curl_init('http://localhost/FunnyVO-API/API/index.php?p=storeAudioData');
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+            curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'POST');
+            curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($data));
+            curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
 
+            $return = curl_exec($ch);
 
-		}
+            $json_data = json_decode($return, true);
 
-		
-		
+            $curl_error = curl_error($ch);
+            $http_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
 
-        // var fd = new FormData();
-        // var files = $('#file')[0].files[0];
-        // fd.append('file',files);
+			echo "<script>window.location='http://localhost/FunnyVO-AdminPanel/dashboard.php?p=sounds&page=soundGallary&action=success'</script>";
+			
+        } else {
+            echo "<script>window.location='dashboard.php?p=sounds&page=soundGallary&action=error'</script>";
+        }
+    }
+    if (!empty($_POST["send"])) {
+        // print("aksahk");
+        // die;
+        upload();
+    }
 
-        // $.ajax({
-        //     url: 'upload.php',
-        //     type: 'post',
-        //     data: fd,
-        //     contentType: false,
-        //     processData: false,
-        //     success: function(response){
-        //         if(response != 0){
-                	
-        //         	//$("#previews").append(response); // Display image element
+    function uploadFileOnS3($folder, $tmpfile, $filename)
+    {
 
-        //             $("#img").attr("src",response); 
-        //             $(".preview img").show(); // Display image element
-        //         }else{
-        //             alert('file not uploaded');
-        //         }
-        //     },
-        // });
+        $bucket = AWS_S3_BUCKET;
+        $s3 = new S3Client([
+            'version' => 'latest',
+            'region' => AWS_S3_REGION,
+            'credentials' => array(
+                'key' => AWS_S3_KEY,
+                'secret' => AWS_S3_SECRET
+            )
+        ]);
 
-    });
-});
-</script>
+        try {
+            // Upload data.
+            $result = $s3->putObject([
+                'Bucket' => $bucket,
+                'Key' => $folder . $filename,
+                'SourceFile' => $tmpfile,
+            ]);
 
+            // Print the URL to the object.
+            return $result['ObjectURL'];
+        } catch (S3Exception $e) {
+            echo $e->getMessage();
+            die;
+        }
+    }
+    ?>
 
-<div class="container">
+</body>
 
-	<label for="file" style="line-height: 75px;">
-	    
-	    <form method="post" action="" enctype="multipart/form-data" id="myform">
-	        <div class='preview' align="center" style="margin-top: 40px;">
-	            <img src="upload.png" width="100" height="100">
-	            <h2 style="color: #80808099; font-weight: 300; margin:0px; font-family: Arial;">Upload Sound (.AAC)</h2>
-	        </div>
-	        <div >
-	            <input type="file" id="file" name="file[]" multiple style="display: none;" />
-	        </div>
-	    </form>
-
-	</label>    
-
-</div>
-
-<div class="container1" id="previews"></div>
-
-<!--<form action="?submit_video=ok" method="post" id="previewBox" style="display: none;">-->
-<!--    <input type="hidden" name="category" value="<?php echo @$_GET['category'] ?>">-->
-<!--    <div class="container1" id="previews"></div>-->
-<!--    <div class="container2"><input type="submit" value="Submit" style="border: 0;padding: 15px 20px;width: 100%;background:#84D2C0;color: white;font-size: 14px;border-radius: 5px;"></div>-->
-<!--</form>-->
-
-<br><br><br><br><br><br>
-<div align="center">
-<b>Note:</b>
-convert mp3 file into AAC file and then upload
-<br>
-<a href="https://convertio.co/mp3-aac/">Convert MP3 to AAC</a>
-
-</div>
-
-
+</html> 
