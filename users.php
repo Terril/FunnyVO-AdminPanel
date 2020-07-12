@@ -28,7 +28,8 @@ if( isset($_SESSION['id']))
     			curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
     			curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'POST');
     			curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($data));
-    			curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+				curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+				curl_setopt($ch,CURLOPT_SSL_VERIFYPEER, false);
     
     			$return = curl_exec($ch);
     
@@ -97,6 +98,7 @@ if( isset($_SESSION['id']))
 		curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'POST');
 		curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($data));
 		curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+		curl_setopt($ch,CURLOPT_SSL_VERIFYPEER, false);
 
 		$return = curl_exec($ch);
 

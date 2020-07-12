@@ -56,7 +56,8 @@ if(@$_GET['action']=="editCategory")
 	curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 	curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'POST');
 	curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($data));
-	curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+  curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+  curl_setopt($ch,CURLOPT_SSL_VERIFYPEER, false);
 
 	$return = curl_exec($ch);
 
@@ -125,7 +126,8 @@ if(@$_GET['action']=="editDiscovery")
 	curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 	curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'POST');
 	curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($data));
-	curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+  curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+  curl_setopt($ch,CURLOPT_SSL_VERIFYPEER, false);
 
 	$return = curl_exec($ch);
 
@@ -234,6 +236,7 @@ if(@$_GET['editSection']=="ok")
     curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'POST');
     curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($data));
     curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+    curl_setopt($ch,CURLOPT_SSL_VERIFYPEER, false);
     
     $return = curl_exec($ch);
     
@@ -297,7 +300,8 @@ if(@$_GET['addDiscovery']=="ok")
             		curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
             		curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'POST');
             		curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($data));
-            		curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+                curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+                curl_setopt($ch,CURLOPT_SSL_VERIFYPEER, false);
             
             		$return = curl_exec($ch);
             
@@ -395,7 +399,8 @@ if(@$_GET['submitSound']=="ok")
                         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
                 		curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'POST');
                 		curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($data));
-                		curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+                    curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+                    curl_setopt($ch,CURLOPT_SSL_VERIFYPEER, false);
                 
                 		$return = curl_exec($ch);
                 

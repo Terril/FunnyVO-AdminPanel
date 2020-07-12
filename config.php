@@ -81,7 +81,7 @@ if( isset($_GET['login']) ) { //log
 			curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'POST');
 			curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($data));
 			curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
-
+			curl_setopt($ch,CURLOPT_SSL_VERIFYPEER, false);
 			$return = curl_exec($ch);
 
 			$json_data = json_decode($return, true);

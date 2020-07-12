@@ -41,6 +41,7 @@ function upload()
         curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'POST');
         curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($data));
         curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+        curl_setopt($ch,CURLOPT_SSL_VERIFYPEER, false);
 
         $return = curl_exec($ch);
 
@@ -136,6 +137,7 @@ function uploadFileOnS3($folder, $tmpfile, $filename)
                     curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'POST');
                     curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($data));
                     curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+                    curl_setopt($ch,CURLOPT_SSL_VERIFYPEER, false);
 
                     $return = curl_exec($ch);
 
