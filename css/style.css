@@ -3333,6 +3333,11 @@ input#instructions {
 	bottom: -40px !important;
 }
 
+#play-pause-button{
+	font-size: 43px;
+	cursor: pointer;
+  }
+
 .slick-dots li {
 	position: relative;
 	display: inline-block !important;
