@@ -287,7 +287,13 @@ if (isset($_SESSION['id'])) {
 <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
 <script>
     $(document).ready(function() {
-		    $('#data1').DataTable();
+            var length_value = parseInt(sessionStorage.datatable_length_value);
+
+		    $('#data1').DataTable({
+				/* Disable initial sort */
+				"aaSorting": [],
+                "pageLength": length_value
+			});
 			
 			var audio = new Audio();
 			$('.play-pause-button').on("click",function(){
@@ -464,7 +470,14 @@ foreach ($json_data['msg'] as $str => $val) {
 		<?php if($val['sound_url'] !="") {?>
 			<a id="play-pause-button" class="fa fa-play play-pause-button" data-value="<?php echo $val['sound_url']; ?>"></a>
 
-		<?php }?>
+		<?php }else{
+
+        ?>
+        No URL
+          <?php
+            
+          
+        }?>
 
     </td>
 

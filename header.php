@@ -73,6 +73,17 @@
       src="https://www.facebook.com/tr?id=2223805407931076&ev=PageView&noscript=1"
     /></noscript>
     <!-- End Facebook Pixel Code -->
+	<script>
+
+		// Set default value of dataTable row count
+		sessionStorage.datatable_length_default = 50;
+
+		if (sessionStorage["datatable_length_value"]==undefined || sessionStorage["datatable_length_value"]==0 || sessionStorage["datatable_length_value"]==null || sessionStorage["datatable_length_value"]==false || sessionStorage["datatable_length_value"]==''){
+
+			sessionStorage.datatable_length_value = sessionStorage.datatable_length_default;
+		}
+
+	</script>
     
 </head>
 

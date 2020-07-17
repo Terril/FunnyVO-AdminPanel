@@ -182,7 +182,13 @@ if( isset($_SESSION['id']))
   	<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
 	<script>
 		$(document).ready(function() {
-		    $('#data1').DataTable();
+			var length_value = parseInt(sessionStorage.datatable_length_value);
+            
+		    $('#data1').DataTable({
+				/* Disable initial sort */
+				"aaSorting": [],
+				"pageLength": length_value
+			});
 		} );
 	</script>
 
@@ -248,8 +254,9 @@ if( isset($_SESSION['id']))
 			echo "<table id='data1' class='display' style='width:100%''>
 			<thead>
 	            <tr>
-	                <th>ID</th>
-	                <th>Play Preview</th>
+					<th>ID</th>
+					<th>Video Thumb</th>
+	                <th>Download</th>
 	                <th>Username</th>
 	                <th>Sound Name</th>
 	                <th>Discovery Section</th>
@@ -267,6 +274,9 @@ if( isset($_SESSION['id']))
 						<?php 
 							echo $val['id']; 
 						?>
+					</td>
+					<td>
+					   <img src="<?php echo $val['thum'];  ?>" style="width: 60px;">
 					</td>
 					<td>
 					   <a href="<?php echo $val['video'];  ?>" target="_blank"><img src="img/play.png" style="width: 30px;"></a>
@@ -326,7 +336,8 @@ if( isset($_SESSION['id']))
 			<tfoot>
 	            <tr>
 	                <th>ID</th>
-	                <th>Play Preview</th>
+	                <th>Video Thumb</th>
+	                <th>Download</th>
 	                <th>Username</th>
 	                <th>Sound Name</th>
 	                <th>Discovery Section</th>

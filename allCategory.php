@@ -199,7 +199,13 @@ if( isset($_SESSION['id']))
   	<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
 	<script>
 		$(document).ready(function() {
-		    $('#data1').DataTable();
+			var length_value = parseInt(sessionStorage.datatable_length_value);
+            
+		    $('#data1').DataTable({
+				/* Disable initial sort */
+				"aaSorting": [],
+				"pageLength": length_value
+			});
 		} );
 	</script>
 
