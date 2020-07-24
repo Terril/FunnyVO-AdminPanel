@@ -51,6 +51,9 @@ require_once("config.php");
 					include("discovery.php");
 				} 
 				
+				if( $_GET['p'] == "custom_notification" ) { 
+					include("custom_notification.php");
+				} 
 				
 				if( $_GET['p'] == "change_password" ) { //change_password
 					include("change_password.php");
