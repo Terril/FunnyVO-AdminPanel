@@ -24,7 +24,7 @@ if( isset($_SESSION['id']))
 				"body" => $body,
 				"video_id" => $video_id
 			);
-            $ch = curl_init( $baseurl.'custom_notification_sections_edit' );
+            $ch = curl_init( $baseurl.'custom_notification_edit' );
 
 			curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 			curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'POST');
@@ -57,7 +57,7 @@ if( isset($_SESSION['id']))
     
     	} //login user = end
         else
-        if( $_GET['action'] == "Add_Custom_notification_section" ) { //login user
+        if( $_GET['action'] == "Add_Custom_Notification_section" ) { //login user
     
 			 $title=$_POST['title'];
 			 $body=$_POST['body'];
@@ -89,9 +89,9 @@ if( isset($_SESSION['id']))
 			$curl_error = curl_error($ch);
 			$http_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
 
-			echo json_encode($data);
-			print_r($return);
-			die();
+			// echo json_encode($data);
+			// print_r($data);
+			// die();
 			
 			curl_close($ch);
 

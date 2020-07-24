@@ -602,7 +602,7 @@ if (@$_GET['action'] == "editCustom_Notification") {
 
   ?>
 
-  <h2 style="font-weight: 300;" align="center">Edit Notificatiopn</h2>
+  <h2 style="font-weight: 300;" align="center">Edit Notification</h2>
 
   <br><br>
 
@@ -643,7 +643,7 @@ if (@$_GET['action'] == "editCustom_Notification") {
           $http_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
 
           foreach ($json_data['msg'] as $str => $val) {
-            if (isset($json_data['msg'][0]['video_id']) && !empty($json_data['msg'][0]['video_id']) && $json_data['msg'][0]['video_id'] == $val['id']) {
+            if (isset($json_data['msg'][0]['video_id']) && $json_data['msg'][0]['video_id'] == $val['id']) {
               ?>
             <option value="<?php echo $val['id']; ?>" selected>
               <?php echo $val['video']; ?>
