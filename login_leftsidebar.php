@@ -23,7 +23,7 @@
 				echo 'class="active"';
 			} } ?> ><a href="dashboard.php?p=discovery">Discovery Section</a></li>
 
-			<li <?php if(isset($_GET['p'])) { if( $_GET['p'] == "notification" ) {
+			<li <?php if(isset($_GET['p'])) { if( $_GET['p'] == "custom_notification" ) {
 				echo 'class="active"';
 			} } ?> ><a href="dashboard.php?p=custom_notification">Notification Section</a></li>
 			
