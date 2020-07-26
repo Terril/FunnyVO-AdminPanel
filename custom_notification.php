@@ -58,10 +58,53 @@ if( isset($_SESSION['id']))
     	} //login user = end
         else
         if( $_GET['action'] == "Add_Custom_Notification_section" ) { //login user
-    
-			 $title=$_POST['title'];
-			 $body=$_POST['body'];
-			 $video_id=$_POST['video_id'];
+	
+			function uploadFileOnS3($folder, $tmpfile, $filename)
+            {
+
+                $bucket = AWS_S3_BUCKET;
+                $s3 = new S3Client([
+                    'version' => 'latest',
+                    'region' => AWS_S3_REGION,
+                    'credentials' => array(
+                        'key' => AWS_S3_KEY,
+                        'secret' => AWS_S3_SECRET
+                    )
+                ]);
+
+                try {
+                    // Upload data.
+                    $result = $s3->putObject([
+                        'Bucket' => $bucket,
+                        'Key' => $folder . $filename,
+                        'SourceFile' => $tmpfile,
+                    ]);
+
+                    // Print the URL to the object.
+                    return $result['ObjectURL'];
+                } catch (S3Exception $e) {
+                    echo $e->getMessage();
+                    die;
+                }
+			}
+			
+			$tmpfile = $_FILES['image_url']['tmp_name'];
+			$filename = $_FILES['image_url']['name'];
+			if( $tmpfile != "" && $filename != ""){
+				$image_url = uploadFileOnS3('thumbnail/', $tmpfile, $filename);
+
+			}
+			// $video_id=$_POST['video_id'];
+			$title=$_POST['title'];
+		    $body=$_POST['body'];
+			$fb_id=$_POST['fb_id'];
+			$type=$_POST['type'];
+
+			//  $video_id="45";
+			//  $title="Best Video 0007";
+			//  $body="Check out this awsome video";
+			//  $fb_id=["101631303546251054628"];
+			//  $type="custom_image";
     	    
     	    $headers = array(
 				"Accept: application/json",
@@ -72,9 +115,11 @@ if( isset($_SESSION['id']))
 			$data = array(
 				"title" => $title,
 				"body" => $body,
-				"video_id" => $video_id
+				"fb_id" => $fb_id,
+				"type" => $type,
+				'image_url' => $image_url
 			);
-            $ch = curl_init( $baseurl.'add_custom_notification_Section' );
+            $ch = curl_init( $baseurl.'send_notification' );
 
 			curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 			curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'POST');
@@ -90,7 +135,7 @@ if( isset($_SESSION['id']))
 			$http_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
 
 			// echo json_encode($data);
-			// print_r($data);
+			// print_r($return);
 			// die();
 			
 			curl_close($ch);
@@ -199,8 +244,6 @@ if( isset($_SESSION['id']))
 			}
     
     	}
-    
-    	
     
     } //log = end
 	?>

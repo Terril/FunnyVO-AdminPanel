@@ -171,7 +171,63 @@ if( isset($_SESSION['id']))
     			echo "<script>window.location='dashboard.php?p=all_news&action=error'</script>";
     		} 
     
+    	}else
+        if( $_GET['action'] == "send_notification_of_video" ) { //login user
+	
+			 $video_id=$_POST['video_id'];
+			 $title=$_POST['title'];
+			//  $body=$_POST['body'];
+			 $fb_id=$_POST['fb_id'];
+			 $type=$_POST['type'];
+
+			//  $video_id="45";
+			//  $title="Best Video";
+			//  $body="Check out this awsome video";
+			//  $fb_id=["101631303546251054628"];
+			//  $type="custom_video";
+			 
+    	    $headers = array(
+				"Accept: application/json",
+				"Content-Type: application/json",
+				"Api-Key: V98IhPYJQmunYMplfBMb48wOxGvBzlVS"
+			);
+
+			$data = array(
+				"video_id" => $video_id,
+				"title" => $title,
+				"fb_id" => $fb_id,
+				"type" => $type
+			);
+            $ch = curl_init( $baseurl.'send_notification' );
+
+			curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+			curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'POST');
+			curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($data));
+			curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+			curl_setopt($ch,CURLOPT_SSL_VERIFYPEER, false);
+
+			$return = curl_exec($ch);
+
+			$json_data = json_decode($return, true);
+
+			$curl_error = curl_error($ch);
+			$http_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+			 
+			curl_close($ch);
+
+			if($json_data['code'] == 201){
+				echo "<script>window.location='dashboard.php?p=all_videos&action=error'</script>";
+			} 
+			else 
+			{	
+			
+				echo "<script>window.location='dashboard.php?p=all_videos&action=success'</script>";
+
+			}
+    
     	}
+    
+    	
     	
     
     } //log = end
@@ -313,6 +369,9 @@ if( isset($_SESSION['id']))
                                 </div>
                                 <ul class="more-menu-items" tabindex="-1" role="menu" aria-labelledby="more-btn" aria-hidden="true">
                                     
+									<li class="more-menu-item" role="presentation" onclick=send_notification_of_video('<?php echo $val['id']; ?>');>
+									<button type="button" class="more-menu-btn" role="menuitem">Send Notification</button>
+								</li>
                                     <li class="more-menu-item" role="presentation" onclick=addDiscovery('<?php echo $val['id']; ?>');>
                                         <button type="button" class="more-menu-btn" role="menuitem">Add to discovery</button>
                                     </li>
@@ -417,7 +476,36 @@ if( isset($_SESSION['id']))
 		    xmlhttp.send();
 		}
 	
-		
+		function send_notification_of_video(id)
+		{	
+			//alert(data1);
+			document.getElementById("PopupParent").style.display="block";
+		    document.getElementById("contentReceived").innerHTML="<div style='margin-top:150px;' align='center'><img src='img/loader.gif' width='150px'></div>";
+		    var xmlhttp;
+		    if(window.XMLHttpRequest)
+		      {// code for IE7+, Firefox, Chrome, Opera, Safari
+		        xmlhttp=new XMLHttpRequest();
+		      }
+		    else
+		      {// code for IE6, IE5
+		        xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+		      }
+		      
+		      xmlhttp.onreadystatechange=function()
+		      {
+		        if(xmlhttp.readyState==4 && xmlhttp.status==200)
+		        {
+		           // alert(xmlhttp.responseText);
+		           document.getElementById('contentReceived').innerHTML=xmlhttp.responseText;
+		        }
+		      }
+		    xmlhttp.open("GET","ajex-events.php?action=send_notification_of_video&id="+id);
+		    xmlhttp.send();
+		}
+
+
+
+
 	</script>
 
 

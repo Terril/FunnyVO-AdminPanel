@@ -514,6 +514,8 @@ if (@$_GET['action'] == "AddCustom_Notification") {
   <br><br>
 
   <form action="dashboard.php?p=custom_notification&action=Add_Custom_Notification_section" enctype="multipart/form-data" method="post" novalidate="novalidate">
+    
+  <input name="type" required="" value="custom_image" type="hidden">
     <p style="margin-bottom: 30px;">
       <input name="title" required="" type="text">
       <label alt="Title" placeholder="Title"></label>
@@ -522,9 +524,16 @@ if (@$_GET['action'] == "AddCustom_Notification") {
       <input name="body" required="" type="text">
       <label alt="Description" placeholder="Description"></label>
     </p>
+
+    <p style="margin-bottom: 30px;">
+      <input name="image_url" id="image_url" required="" type="file" >
+      <label alt="Image File" placeholder="Image File"></label>
+    </p>
+
     <p style="width: 100%;" class="left">
-      <select name="video_id" class="cityies_selection" style="font-weight: 400;font-size: 12px;width: 100%;padding: 12px;border: 1px solid #ccc;border-radius: 3px;color: #555;box-shadow: inset 0 1px 1px rgba(0,0,0,0.075);" required>
-        <option value="">Select Video</option>
+      <select  multiple name="fb_id[]" class="cityies_selection" style="font-weight: 400;font-size: 12px;width: 100%;border: 1px solid #ccc;border-radius: 3px;color: #555;box-shadow: inset 0 1px 1px rgba(0,0,0,0.075);" size="5" required>
+        <!-- <option value="">Select Users</option> -->
+        <option value="all">All Users</option>
         <?php
           $headers = array(
             "Accept: application/json",
@@ -532,7 +541,7 @@ if (@$_GET['action'] == "AddCustom_Notification") {
           );
 
           $data = array();
-          $ch = curl_init($baseurl . 'showAllVideosList');
+          $ch = curl_init($baseurl . 'get_user_list');
 
           curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
           curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'POST');
@@ -550,14 +559,12 @@ if (@$_GET['action'] == "AddCustom_Notification") {
 
           foreach ($json_data['msg'] as $str => $val) {
             ?>
-          <option value="<?php echo $val['id']; ?>">
-            <?php echo $val['video']; ?>
-          </option>
-        <?php
+          <option value="<?php echo $val['fb_id']; ?>"><?php echo $val['first_name'].' '.$val['last_name']; ?></option>
+          <?php
 
           }
           ?>
-        <!-- <option value="0" style="color:white; background:maroon;">Remove This video from section</option> -->
+        
       </select>
     </p>
 
@@ -681,6 +688,70 @@ if (@$_GET['action'] == "sendCustom_Notification") {
 
   <form action="dashboard.php?p=custom_notification&action=Send_Custom_notification_section" enctype="multipart/form-data" method="post" novalidate="novalidate">
     <input type="hidden" id='custom_notification_id' name="custom_notification_id" value="<?php echo $id; ?>">
+    <p style="width: 100%;" class="left">
+      <select  multiple name="fb_id[]" class="cityies_selection" style="font-weight: 400;font-size: 12px;width: 100%;border: 1px solid #ccc;border-radius: 3px;color: #555;box-shadow: inset 0 1px 1px rgba(0,0,0,0.075);" size="5" required>
+        <!-- <option value="">Select Users</option> -->
+        <option value="all">All Users</option>
+        <?php
+          $headers = array(
+            "Accept: application/json",
+            "Content-Type: application/json"
+          );
+
+          $data = array();
+          $ch = curl_init($baseurl . 'get_user_list');
+
+          curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+          curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'POST');
+          curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($data));
+          curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+          curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+
+          $return = curl_exec($ch);
+
+          $json_data = json_decode($return, true);
+          // var_dump($return);
+
+          $curl_error = curl_error($ch);
+          $http_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+
+          foreach ($json_data['msg'] as $str => $val) {
+            ?>
+          <option value="<?php echo $val['fb_id']; ?>"><?php echo $val['first_name'].' '.$val['last_name']; ?></option>
+          <?php
+
+          }
+          ?>
+        
+      </select>
+    </p>
+    <p style="width: 100%;" class="right">
+      <input value="Send Now" class="buttoncolor" style="border: 0px;" type="submit">
+    </p>
+  </form>
+
+
+<?php
+
+}else
+if (@$_GET['action'] == "send_notification_of_video") {
+
+  $id = @$_GET['id'];
+  ?>
+
+  <h2 style="font-weight: 300;" align="center">Send Custom Video Notification</h2>
+
+  <br><br>
+
+  <form action="dashboard.php?p=all_videos&action=send_notification_of_video" enctype="multipart/form-data" method="post" novalidate="novalidate">
+    <input type="hidden" id='video_id' name="video_id" value="<?php echo $id; ?>">
+    <input type="hidden" id='type' name="type" value="custom_video">
+
+    <p style="margin-bottom: 30px;">
+      <input name="title" required="" type="text">
+      <label alt="Title" placeholder="Title"></label>
+    </p>
+
     <p style="width: 100%;" class="left">
       <select  multiple name="fb_id[]" class="cityies_selection" style="font-weight: 400;font-size: 12px;width: 100%;border: 1px solid #ccc;border-radius: 3px;color: #555;box-shadow: inset 0 1px 1px rgba(0,0,0,0.075);" size="5" required>
         <!-- <option value="">Select Users</option> -->
