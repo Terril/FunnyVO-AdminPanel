@@ -516,6 +516,7 @@ if (@$_GET['action'] == "AddCustom_Notification") {
   <form action="dashboard.php?p=custom_notification&action=Add_Custom_Notification_section" enctype="multipart/form-data" method="post" novalidate="novalidate">
     
   <input name="type" required="" value="custom_image" type="hidden">
+  
     <p style="margin-bottom: 30px;">
       <input name="title" required="" type="text">
       <label alt="Title" placeholder="Title"></label>
