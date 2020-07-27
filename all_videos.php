@@ -37,11 +37,7 @@ if( isset($_SESSION['id']))
     
     			$curl_error = curl_error($ch);
     			$http_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-    
-    			//echo $json_data['code'];
-    			//print_r($json_data);
-    			//die();
-    			
+
     			curl_close($ch);
     
     			if($json_data['code'] == 201){
@@ -93,10 +89,6 @@ if( isset($_SESSION['id']))
     			$curl_error = curl_error($ch);
     			$http_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
     
-    			//echo $json_data['code'];
-    			//print_r($json_data);
-    			//die();
-    			
     			curl_close($ch);
     
     			if($json_data['code'] == 201){
@@ -148,11 +140,7 @@ if( isset($_SESSION['id']))
     
     			$curl_error = curl_error($ch);
     			$http_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-    
-    			//echo $json_data['code'];
-    			//print_r($json_data);
-    			//die();
-    			
+
     			curl_close($ch);
     
     			if($json_data['code'] == 201){
@@ -180,12 +168,6 @@ if( isset($_SESSION['id']))
 			 $fb_id=$_POST['fb_id'];
 			 $type=$_POST['type'];
 
-			//  $video_id="45";
-			//  $title="Best Video";
-			//  $body="Check out this awsome video";
-			//  $fb_id=["101631303546251054628"];
-			//  $type="custom_video";
-			 
     	    $headers = array(
 				"Accept: application/json",
 				"Content-Type: application/json",
@@ -212,7 +194,7 @@ if( isset($_SESSION['id']))
 
 			$curl_error = curl_error($ch);
 			$http_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-			 
+			
 			curl_close($ch);
 
 			if($json_data['code'] == 201){
@@ -278,11 +260,6 @@ if( isset($_SESSION['id']))
 
 		$curl_error = curl_error($ch);
 		$http_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-        
-        //echo count($json_data['msg']);
-        ///print_r($json_data);
-		//echo $json_data['code'];
-		//die;
 
 		if($json_data['code'] != "200"){
 			//echo "<div class='alert alert-danger'>Error in fetching order history, try again later..</div>";

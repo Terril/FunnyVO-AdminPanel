@@ -1,5 +1,9 @@
 <?php 
 require_once("config.php"); 
+require_once 'aws.phar';
+use Aws\S3\S3Client;
+use Aws\S3\Exception\S3Exception;
+
 if( isset($_SESSION['id']))
 { 
 	
@@ -62,16 +66,17 @@ if( isset($_SESSION['id']))
 			function uploadFileOnS3($folder, $tmpfile, $filename)
             {
 
+                $bucket = AWS_S3_BUCKET;
+                $s3 = new S3Client([
+                    'version' => 'latest',
+                    'region' => AWS_S3_REGION,
+                    'credentials' => array(
+                        'key' => AWS_S3_KEY,
+                        'secret' => AWS_S3_SECRET
+                    )
+                ]);
+
                 try {
-					$bucket = AWS_S3_BUCKET;
-					$s3 = new S3Client([
-						'version' => 'latest',
-						'region' => AWS_S3_REGION,
-						'credentials' => array(
-							'key' => AWS_S3_KEY,
-							'secret' => AWS_S3_SECRET
-						)
-					]);
                     // Upload data.
                     $result = $s3->putObject([
                         'Bucket' => $bucket,
@@ -82,25 +87,29 @@ if( isset($_SESSION['id']))
                     // Print the URL to the object.
                     return $result['ObjectURL'];
                 } catch (S3Exception $e) {
-                    // echo $e->getMessage();
-                    // die;
+                    echo $e->getMessage();
+                    die;
                 }
 			}
 			
-			$custtmpfile = $_FILES['image_url']['tmp_name'];
-			$custfilename = $_FILES['image_url']['name'];
-			if(isset($_FILES['image_url']['tmp_name']) && !empty($_FILES['image_url']['tmp_name']) && $custtmpfile != "" && $custfilename != ""){
-				// $image_url = uploadFileOnS3('thumbnail/', $custtmpfile, $custfilename);
-				$image_url = "";
-			}else{
-				$image_url = "";
-			}
+			$tmpfile = $_FILES['image_url']['tmp_name'];
+			$filename = $_FILES['image_url']['name'];
+			if( $tmpfile != "" && $filename != ""){
+				$image_url = uploadFileOnS3('thumbnail/', $tmpfile, $filename);
 
+			}
+			// $video_id=$_POST['video_id'];
 			$title=$_POST['title'];
 		    $body=$_POST['body'];
 			$fb_id=$_POST['fb_id'];
 			$type=$_POST['type'];
 
+			//  $video_id="45";
+			//  $title="Best Video 0007";
+			//  $body="Check out this awsome video";
+			//  $fb_id=["101631303546251054628"];
+			//  $type="custom_image";
+    	    
     	    $headers = array(
 				"Accept: application/json",
 				"Content-Type: application/json",
@@ -129,7 +138,7 @@ if( isset($_SESSION['id']))
 			$curl_error = curl_error($ch);
 			$http_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
 
-			// echo json_encode($image_url);
+			// echo json_encode($data);
 			// print_r($return);
 			// die();
 			
