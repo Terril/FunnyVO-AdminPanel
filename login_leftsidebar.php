@@ -26,6 +26,10 @@
 			<li <?php if(isset($_GET['p'])) { if( $_GET['p'] == "custom_notification" ) {
 				echo 'class="active"';
 			} } ?> ><a href="dashboard.php?p=custom_notification">Notification Section</a></li>
+
+			<li <?php if(isset($_GET['p'])) { if( $_GET['p'] == "setting" ) {
+				echo 'class="active"';
+			} } ?> ><a href="dashboard.php?p=setting">Setting Section</a></li>
 			
 			<li <?php if(isset($_GET['p'])) { if( $_GET['p'] == "change_password" ) {
 				echo 'class="active"';

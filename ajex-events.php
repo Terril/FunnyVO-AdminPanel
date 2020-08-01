@@ -798,6 +798,89 @@ if (@$_GET['action'] == "send_notification_of_video") {
 
 <?php
 
+}else
+if (@$_GET['action'] == "AddSetting") {
+
+
+  ?>
+
+  <h2 style="font-weight: 300;" align="center">Add Setting</h2>
+
+  <br><br>
+
+  <form action="dashboard.php?p=setting&action=Add_Setting" enctype="multipart/form-data" method="post" novalidate="novalidate">
+    <p style="margin-bottom: 30px;">
+      <input name="setting_key" required="" type="text">
+      <label alt="Setting Key" placeholder="Setting Key"></label>
+    </p>
+    <p style="margin-bottom: 30px;">
+      <input name="setting_value" required="" type="text">
+      <label alt="Setting Value" placeholder="Setting Value"></label>
+    </p>
+
+    <p style="width: 100%;" class="right">
+      <input value="Send Now" class="buttoncolor" style="border: 0px;" type="submit">
+    </p>
+  </form>
+
+
+<?php
+
+}else
+if (@$_GET['action'] == "editSetting") {
+
+  $id = @$_GET['id'];
+
+  $headers = array(
+    "Accept: application/json",
+    "Content-Type: application/json"
+  );
+
+  $data = array(
+    "id" => $id
+  );
+
+  $ch = curl_init($baseurl . 'all_setting');
+
+  curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+  curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'POST');
+  curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($data));
+  curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+  curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+
+  $return = curl_exec($ch);
+
+  $json_data = json_decode($return, true);
+  //var_dump($return);
+
+  $curl_error = curl_error($ch);
+  $http_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+
+
+  ?>
+
+  <h2 style="font-weight: 300;" align="center">Edit Section</h2>
+
+  <br><br>
+
+  <form action="dashboard.php?p=setting&action=edit_setting" enctype="multipart/form-data" method="post" novalidate="novalidate">
+    <input type="hidden" id='id' name="id" value="<?php echo $json_data['msg'][0]['id']; ?>">
+    <p style="margin-bottom: 30px;">
+      <input name="setting_key" required="" type="text" value="<?php echo $json_data['msg'][0]['setting_key']; ?>">
+      <label alt="Setting Key" placeholder="Setting Key"></label>
+    </p>
+    <p style="margin-bottom: 30px;">
+      <input name="setting_value" required="" type="text" value="<?php echo $json_data['msg'][0]['setting_value']; ?>">
+      <label alt="Setting Value" placeholder="Setting Value"></label>
+    </p>
+    <p style="width: 100%;" class="right">
+      <input value="Send Now" class="buttoncolor" style="border: 0px;" type="submit">
+    </p>
+  </form>
+
+
+<?php
+
 }
 
 

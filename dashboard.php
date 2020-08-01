@@ -54,6 +54,10 @@ require_once("config.php");
 				if( $_GET['p'] == "custom_notification" ) { 
 					include("custom_notification.php");
 				} 
+
+				if( $_GET['p'] == "setting" ) { 
+					include("setting.php");
+				} 
 				
 				if( $_GET['p'] == "change_password" ) { //change_password
 					include("change_password.php");
