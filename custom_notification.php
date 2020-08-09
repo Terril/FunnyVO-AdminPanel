@@ -92,9 +92,11 @@ if( isset($_SESSION['id']))
                 }
 			}
 			
-			$tmpfile = $_FILES['image_url']['tmp_name'];
-			$filename = $_FILES['image_url']['name'];
-			if( $tmpfile != "" && $filename != ""){
+			
+			if(isset($_FILES['image_url']['tmp_name']) && !empty($_FILES['image_url']['tmp_name'])){
+
+				$tmpfile = $_FILES['image_url']['tmp_name'];
+				$filename = $_FILES['image_url']['name'];
 				$image_url = uploadFileOnS3('thumbnail/', $tmpfile, $filename);
 
 			}
@@ -138,9 +140,9 @@ if( isset($_SESSION['id']))
 			$curl_error = curl_error($ch);
 			$http_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
 
-			// echo json_encode($data);
-			// print_r($return);
-			// die();
+			echo json_encode($data);
+			print_r($return);
+			die();
 			
 			curl_close($ch);
 
