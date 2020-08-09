@@ -8,7 +8,7 @@ if( isset($_SESSION['id']))
     	if( $_GET['action'] == "edit_setting" ) { //login user
     
     		$id = htmlspecialchars($_POST['id'], ENT_QUOTES);
-    	    $setting_key=$_POST['setting_key'];
+    	    // $setting_key=$_POST['setting_key'];
 			$setting_value=$_POST['setting_value'];
     	    
     	    $headers = array(
@@ -19,7 +19,7 @@ if( isset($_SESSION['id']))
 
 			$data = array(
 				"id" => $id,
-				"setting_key" => $setting_key,
+				// "setting_key" => $setting_key,
 				"setting_value" => $setting_value
 			);
             $ch = curl_init( $baseurl.'setting_edit' );
@@ -36,10 +36,6 @@ if( isset($_SESSION['id']))
 
 			$curl_error = curl_error($ch);
 			$http_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-
-// 			echo json_encode($data);
-// 			print_r($return);
-// 			die();
 			
 			curl_close($ch);
 

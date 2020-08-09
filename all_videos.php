@@ -225,7 +225,45 @@ if( isset($_SESSION['id']))
 		    $('#data1').DataTable({
 				/* Disable initial sort */
 				"aaSorting": [],
-				"pageLength": length_value
+				"pageLength": length_value,
+				"bProcessing": true,
+         		"serverSide": true,
+				"ajax":{
+					url :"<?php echo $baseurl.'show_allVideos_ajax';?>", // json datasource
+					type: "post",  // type of method  , by default would be get
+					error: function(){  // error handling code
+					$("#data1_processing").css("display","none");
+					}
+				},
+				
+
+                dom: 'Bfrtip',
+
+                "columns": [{
+                        "data": "id"
+                    },
+                    {
+                        "data": "thum"
+                    },
+                    {
+                        "data": "video"
+                    },
+                    {
+                        "data": "username"
+                    },
+                    {
+                        "data": "sound_name"
+                    },
+                    {
+                        "data": "section_name"
+                    },
+                    {
+                        "data": "created"
+                    },
+                    {
+                        "data": "action"
+                    },
+                ]
 			});
 		} );
 	</script>
@@ -233,57 +271,8 @@ if( isset($_SESSION['id']))
 	
 	<h2 class="title left">All Videos</h2>
 	
-
-	<?php 
-		
-		$headers = array(
-			"Accept: application/json",
-			"Content-Type: application/json"
-		);
-
-		$data = array(
-			//"user_id" => $user_id
-		);
-
-		$ch = curl_init( $baseurl.'admin_show_allVideos' );
-       
-		curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-		curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'POST');
-		curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($data));
-		curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
-		curl_setopt($ch,CURLOPT_SSL_VERIFYPEER, false);
-
-		$return = curl_exec($ch);
-
-		$json_data = json_decode($return, true);
-	    //var_dump($return);
-
-		$curl_error = curl_error($ch);
-		$http_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-
-		if($json_data['code'] != "200"){
-			//echo "<div class='alert alert-danger'>Error in fetching order history, try again later..</div>";
-			?>
-			<div class="textcenter nothingelse">
-				<img src="img/noorder.png" alt="" />
-				<h3>No Record Found2</h3>
-			</div>
-			<?php
-
-		} else {
-			?>
-			
 			<?php 
-			
-			$rows = count($json_data['msg']);
-			if( $rows == 0 ) {
-				?>
-				<div class="textcenter nothingelse">
-					<img src="img/noorder.png" alt="" />
-					<h3>No Record Found1</h3>
-				</div>
-				<?php
-			}
+
 			echo "<table id='data1' class='display' style='width:100%''>
 			<thead>
 	            <tr>
@@ -298,76 +287,7 @@ if( isset($_SESSION['id']))
 	            </tr>
 	        </thead>
 			<tbody id='myTable_row'>";
-			
-			foreach( $json_data['msg'] as $str => $val ) {
-				//var_dump($val);
-				?>
-				<tr style=" text-align: center;">
-					<td>
-						<?php 
-							echo $val['id']; 
-						?>
-					</td>
-					<td>
-					   <img src="<?php echo $val['thum'];  ?>" style="width: 60px;">
-					</td>
-					<td>
-					   <a href="<?php echo $val['video'];  ?>" target="_blank"><img src="img/play.png" style="width: 30px;"></a>
-					</td>
-					
-					<td>
-						<?php echo $val['user_info']['username'];  ?>	
-					</td>
-					
-					<td style="line-height: 20px;">
-						<?php echo $val['sound']['sound_name'];  ?>	
-					</td>
-					<td>
-						<?php echo $val['section'];  ?>
-					</td>
-					
-					<td>
-						<?php 
-							echo $val['created']; 
-						?>
-					</td>
-					
-					<td>
-						<div class="more">
-                            <button id="more-btn" class="more-btn">
-                                <span class="more-dot"></span>
-                                <span class="more-dot"></span>
-                                <span class="more-dot"></span>
-                            </button>
-                            <div class="more-menu">
-                                <div class="more-menu-caret">
-                                    <div class="more-menu-caret-outer"></div>
-                                    <div class="more-menu-caret-inner"></div>
-                                </div>
-                                <ul class="more-menu-items" tabindex="-1" role="menu" aria-labelledby="more-btn" aria-hidden="true">
-                                    
-									<li class="more-menu-item" role="presentation" onclick=send_notification_of_video('<?php echo $val['id']; ?>');>
-									<button type="button" class="more-menu-btn" role="menuitem">Send Notification</button>
-								</li>
-                                    <li class="more-menu-item" role="presentation" onclick=addDiscovery('<?php echo $val['id']; ?>');>
-                                        <button type="button" class="more-menu-btn" role="menuitem">Add to discovery</button>
-                                    </li>
-                                    
-                                    <a href="?p=all_videos&action=deleteVideo&id=<?php echo $val['id']; ?>" style="color: red;text-decoration: none;">
-                                        <li class="more-menu-item" role="presentation">
-                                            <button type="button" class="more-menu-btn" role="menuitem">Delete</button>
-                                        </li>
-                                    </a>
-                                    
-                                </ul>
-                            </div>
-                        </div>
-					</td>
-					
-					
-				</tr>
-				<?php
-			}
+
 			echo "</tbody>
 			<tfoot>
 	            <tr>
@@ -382,10 +302,6 @@ if( isset($_SESSION['id']))
 	            </tr>
 	        </tfoot>
 	        </table> <nav><ul class='pagination pagination-sm' id='myPager'></ul></nav>";
-			///
-		}
-
-		curl_close($ch);
 	?>
     
    <script>

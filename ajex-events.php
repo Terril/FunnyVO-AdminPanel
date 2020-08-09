@@ -535,6 +535,7 @@ if (@$_GET['action'] == "AddCustom_Notification") {
       <select  multiple name="fb_id[]" class="cityies_selection" style="font-weight: 400;font-size: 12px;width: 100%;border: 1px solid #ccc;border-radius: 3px;color: #555;box-shadow: inset 0 1px 1px rgba(0,0,0,0.075);" size="5" required>
         <!-- <option value="">Select Users</option> -->
         <option value="all">All Users</option>
+        <option value="all_login">Logged IN Users</option>
         <?php
           $headers = array(
             "Accept: application/json",
@@ -693,6 +694,7 @@ if (@$_GET['action'] == "sendCustom_Notification") {
       <select  multiple name="fb_id[]" class="cityies_selection" style="font-weight: 400;font-size: 12px;width: 100%;border: 1px solid #ccc;border-radius: 3px;color: #555;box-shadow: inset 0 1px 1px rgba(0,0,0,0.075);" size="5" required>
         <!-- <option value="">Select Users</option> -->
         <option value="all">All Users</option>
+        <option value="all_login">Logged IN Users</option>
         <?php
           $headers = array(
             "Accept: application/json",
@@ -757,6 +759,7 @@ if (@$_GET['action'] == "send_notification_of_video") {
       <select  multiple name="fb_id[]" class="cityies_selection" style="font-weight: 400;font-size: 12px;width: 100%;border: 1px solid #ccc;border-radius: 3px;color: #555;box-shadow: inset 0 1px 1px rgba(0,0,0,0.075);" size="5" required>
         <!-- <option value="">Select Users</option> -->
         <option value="all">All Users</option>
+        <option value="all_login">Logged IN Users</option>
         <?php
           $headers = array(
             "Accept: application/json",
@@ -866,7 +869,7 @@ if (@$_GET['action'] == "editSetting") {
   <form action="dashboard.php?p=setting&action=edit_setting" enctype="multipart/form-data" method="post" novalidate="novalidate">
     <input type="hidden" id='id' name="id" value="<?php echo $json_data['msg'][0]['id']; ?>">
     <p style="margin-bottom: 30px;">
-      <input name="setting_key" required="" type="text" value="<?php echo $json_data['msg'][0]['setting_key']; ?>">
+      <input type="text" value="<?php echo $json_data['msg'][0]['setting_key']; ?>" readonly>
       <label alt="Setting Key" placeholder="Setting Key"></label>
     </p>
     <p style="margin-bottom: 30px;">
