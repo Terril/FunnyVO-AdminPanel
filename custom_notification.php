@@ -140,9 +140,9 @@ if( isset($_SESSION['id']))
 			$curl_error = curl_error($ch);
 			$http_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
 
-			echo json_encode($data);
-			print_r($return);
-			die();
+			// echo json_encode($data);
+			// print_r($return);
+			// die();
 			
 			curl_close($ch);
 
