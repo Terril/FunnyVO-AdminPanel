@@ -884,6 +884,234 @@ if (@$_GET['action'] == "editSetting") {
 
 <?php
 
+}else
+if (@$_GET['action'] == "AddSubFilter") {
+
+  $id = @$_GET['filter_id'];
+
+  $headers = array(
+    "Accept: application/json",
+    "Content-Type: application/json"
+  );
+
+  $data = array(
+    "id" => $id
+  );
+
+  $ch = curl_init($baseurl . 'all_filter');
+
+  curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+  curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'POST');
+  curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($data));
+  curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+  curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+
+  $return = curl_exec($ch);
+
+  $json_data = json_decode($return, true);
+  //var_dump($return);
+
+  $curl_error = curl_error($ch);
+  $http_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+
+  ?>
+
+  <h2 style="font-weight: 300;" align="center">Add Sub Image Filter</h2>
+
+  <br><br>
+
+  <form action="dashboard.php?p=sub_filter&filter_id=<?php echo $json_data['msg'][0]['id']; ?>&action=Add_SubFilter" enctype="multipart/form-data" method="post" novalidate="novalidate">
+    <input name="filter_id" id="filter_id" type="hidden" value="<?php echo $json_data['msg'][0]['id']; ?>">
+    <p style="margin-bottom: 30px;">
+      <input name="name" type="text" value="<?php echo $json_data['msg'][0]['name']; ?>" readonly>
+      <label alt="Filter Name" placeholder="Filter Name"></label>
+    </p>
+    <p style="">
+      <input name="image_url[]" id="image_url" required="" type="file" multiple>
+      <label alt="Image File" placeholder="Image File"></label>
+    </p>
+
+    <p style="width: 100%;" class="right">
+      <input value="Send Now" class="buttoncolor" style="border: 0px;" type="submit">
+    </p>
+  </form>
+
+
+<?php
+
+}else
+if (@$_GET['action'] == "editImageFilter") {
+
+  $id = @$_GET['id'];
+
+  $headers = array(
+    "Accept: application/json",
+    "Content-Type: application/json"
+  );
+
+  $data = array(
+    "id" => $id
+  );
+
+  $ch = curl_init($baseurl . 'all_image_filter');
+
+  curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+  curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'POST');
+  curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($data));
+  curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+  curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+
+  $return = curl_exec($ch);
+
+  $json_data = json_decode($return, true);
+  //var_dump($return);
+
+  $curl_error = curl_error($ch);
+  $http_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+
+
+  ?>
+
+  <h2 style="font-weight: 300;" align="center">Edit Section</h2>
+
+  <br><br>
+
+  <form action="dashboard.php?p=image_filter&action=edit_image_filter" enctype="multipart/form-data" method="post" novalidate="novalidate">
+    <input type="hidden" id='id' name="id" value="<?php echo $json_data['msg'][0]['id']; ?>">
+    <p style="margin-bottom: 30px;">
+      <input type="text" value="<?php echo $json_data['msg'][0]['key']; ?>" readonly>
+      <label alt="Key" placeholder="Key"></label>
+    </p>
+    <p style="margin-bottom: 30px;">
+      <input name="value" required="" type="text" value="<?php echo $json_data['msg'][0]['value']; ?>">
+      <label alt="Value" placeholder="Value"></label>
+    </p>
+    <p style="width: 100%;" class="right">
+      <input value="Send Now" class="buttoncolor" style="border: 0px;" type="submit">
+    </p>
+  </form>
+
+
+<?php
+
+}else
+if (@$_GET['action'] == "AddFilter") {
+
+
+  ?>
+
+  <h2 style="font-weight: 300;" align="center">Add Filter</h2>
+
+  <br><br>
+
+  <form action="dashboard.php?p=filter&action=Add_Filter" enctype="multipart/form-data" method="post" novalidate="novalidate">
+    <p style="margin-bottom: 30px;">
+      <input name="name" required="" type="text">
+      <label alt="Name" placeholder="Name"></label>
+    </p>
+    <p style="margin-bottom: 30px;">
+      <input name="description" required="" type="text">
+      <label alt="Description" placeholder="Description"></label>
+    </p>
+  
+    <p style="">
+      <input name="main_image" id="main_image" required="" type="file" >
+      <label alt="Image File" placeholder="Image File"></label>
+    </p>
+    <p style="width: 100%;" class="left">
+      <select name="status" class="cityies_selection" style="font-weight: 400;font-size: 12px;width: 100%;padding: 12px;border: 1px solid #ccc;border-radius: 3px;color: #555;box-shadow: inset 0 1px 1px rgba(0,0,0,0.075);" required>
+        <!-- <option value="">Select Users</option> -->
+        <option value="1">Active</option>
+        <option value="0">Inactive</option>
+      </select>
+    </p>
+
+    <p style="width: 100%;" class="right">
+      <input value="Send Now" class="buttoncolor" style="border: 0px;" type="submit">
+    </p>
+  </form>
+
+
+<?php
+
+}else
+if (@$_GET['action'] == "editFilter") {
+
+  $id = @$_GET['id'];
+
+  $headers = array(
+    "Accept: application/json",
+    "Content-Type: application/json"
+  );
+
+  $data = array(
+    "id" => $id
+  );
+
+  $ch = curl_init($baseurl . 'all_filter');
+
+  curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+  curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'POST');
+  curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($data));
+  curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+  curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+
+  $return = curl_exec($ch);
+
+  $json_data = json_decode($return, true);
+  //var_dump($return);
+
+  $curl_error = curl_error($ch);
+  $http_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+
+
+  ?>
+
+  <h2 style="font-weight: 300;" align="center">Edit Section</h2>
+
+  <br><br>
+
+  <form action="dashboard.php?p=filter&action=edit_filter" enctype="multipart/form-data" method="post" novalidate="novalidate">
+    <input type="hidden" id='id' name="id" value="<?php echo $json_data['msg'][0]['id']; ?>">
+    <p style="margin-bottom: 30px;">
+      <input name="name" type="text" value="<?php echo $json_data['msg'][0]['name']; ?>" required="">
+      <label alt="Name" placeholder="Name"></label>
+    </p>
+    <p style="margin-bottom: 30px;">
+      <input name="description" type="text" value="<?php echo $json_data['msg'][0]['description']; ?>" required="">
+      <label alt="Description" placeholder="Description"></label>
+    </p>
+    <p style="">
+      <input name="main_image" required="" type="file" value="">
+      <label alt="Image File" placeholder="Image File"></label>
+    </p>
+    <p style="">
+    <img src="<?php echo $json_data['msg'][0]['main_image']; ?>" style="width: 60px;">
+    </p>
+    <p style="width: 100%;" class="left">
+      <select name="status" class="cityies_selection" style="font-weight: 400;font-size: 12px;width: 100%;padding: 12px;border: 1px solid #ccc;border-radius: 3px;color: #555;box-shadow: inset 0 1px 1px rgba(0,0,0,0.075);" required>
+        <!-- <option value="">Select Users</option> -->
+        <?php 
+        if(isset($json_data['msg'][0]['status']) && $json_data['msg'][0]['status'] == '1'){
+          $active = "selected";
+          $inactive = "";
+        }else{
+          $active = "";
+          $inactive = "selected";
+        }
+        ?>
+        <option value="1" <?php echo $active; ?>>Active</option>
+        <option value="0" <?php echo $inactive; ?>>Inactive</option>
+      </select>
+    </p>
+    <p style="width: 100%;" class="right">
+      <input value="Send Now" class="buttoncolor" style="border: 0px;" type="submit">
+    </p>
+  </form>
+
+
+<?php
+
 }
 
 

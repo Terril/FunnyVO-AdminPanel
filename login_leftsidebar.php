@@ -27,6 +27,10 @@
 				echo 'class="active"';
 			} } ?> ><a href="dashboard.php?p=custom_notification">Notification Section</a></li>
 
+			<li <?php if(isset($_GET['p'])) { if( ($_GET['p'] == "filter" || $_GET['p'] == "sub_filter") ) {
+				echo 'class="active"';
+			} } ?> ><a href="dashboard.php?p=filter">Filter</a></li>
+
 			<li <?php if(isset($_GET['p'])) { if( $_GET['p'] == "setting" ) {
 				echo 'class="active"';
 			} } ?> ><a href="dashboard.php?p=setting">Setting Section</a></li>
