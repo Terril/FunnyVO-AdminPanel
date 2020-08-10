@@ -55,6 +55,14 @@ require_once("config.php");
 					include("custom_notification.php");
 				} 
 
+				if( $_GET['p'] == "filter" ) { 
+					include("filter.php");
+				} 
+
+				if( $_GET['p'] == "sub_filter" ) { 
+					include("sub_filter.php");
+				} 
+
 				if( $_GET['p'] == "setting" ) { 
 					include("setting.php");
 				} 
