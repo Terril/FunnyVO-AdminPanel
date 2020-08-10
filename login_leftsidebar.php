@@ -37,7 +37,7 @@
 			
 			<li <?php if(isset($_GET['p'])) { if( $_GET['p'] == "change_password" ) {
 				echo 'class="active"';
-			} } ?> ><a href="dashboard.php?p=change_password">Chanage Password</a></li>
+			} } ?> ><a href="dashboard.php?p=change_password">Change Password</a></li>
 
 			<li <?php if(isset($_GET['log'])) { if( $_GET['log'] == "out" ) {
 				echo 'class="active"';
