@@ -44,7 +44,7 @@ if( isset($_SESSION['id']))
 
 				$tmpfile = $_FILES['main_image']['tmp_name'];
 				$filename = $_FILES['main_image']['name'];
-				$main_image = uploadFileOnS3('thumbnail/', $tmpfile, $filename);
+				$main_image = uploadFileOnS3('filter/', $tmpfile, $filename);
 
 			}else{
 				$main_image = "";
@@ -106,7 +106,7 @@ if( isset($_SESSION['id']))
 
 				$tmpfile = $_FILES['main_image']['tmp_name'];
 				$filename = $_FILES['main_image']['name'];
-				$main_image = uploadFileOnS3('thumbnail/', $tmpfile, $filename);
+				$main_image = uploadFileOnS3('filter/', $tmpfile, $filename);
 
 			}else{
 				$main_image = "";
