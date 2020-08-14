@@ -514,9 +514,9 @@ if (@$_GET['action'] == "AddCustom_Notification") {
   <br><br>
 
   <form action="dashboard.php?p=custom_notification&action=Add_Custom_Notification_section" enctype="multipart/form-data" method="post" novalidate="novalidate">
-    
-  <input name="type" required="" value="custom_image" type="hidden">
-  
+
+    <input name="type" required="" value="custom_image" type="hidden">
+
     <p style="margin-bottom: 30px;">
       <input name="title" required="" type="text">
       <label alt="Title" placeholder="Title"></label>
@@ -527,12 +527,12 @@ if (@$_GET['action'] == "AddCustom_Notification") {
     </p>
 
     <p style="margin-bottom: 30px;">
-      <input name="image_url" id="image_url" required="" type="file" >
+      <input name="image_url" id="image_url" required="" type="file">
       <label alt="Image File" placeholder="Image File"></label>
     </p>
 
     <p style="width: 100%;" class="left">
-      <select  multiple name="fb_id[]" class="cityies_selection" style="font-weight: 400;font-size: 12px;width: 100%;border: 1px solid #ccc;border-radius: 3px;color: #555;box-shadow: inset 0 1px 1px rgba(0,0,0,0.075);" size="5" required>
+      <select multiple name="fb_id[]" class="cityies_selection" style="font-weight: 400;font-size: 12px;width: 100%;border: 1px solid #ccc;border-radius: 3px;color: #555;box-shadow: inset 0 1px 1px rgba(0,0,0,0.075);" size="5" required>
         <!-- <option value="">Select Users</option> -->
         <option value="all">All Users</option>
         <option value="all_login">Logged IN Users</option>
@@ -561,12 +561,12 @@ if (@$_GET['action'] == "AddCustom_Notification") {
 
           foreach ($json_data['msg'] as $str => $val) {
             ?>
-          <option value="<?php echo $val['fb_id']; ?>"><?php echo $val['first_name'].' '.$val['last_name']; ?></option>
-          <?php
+          <option value="<?php echo $val['fb_id']; ?>"><?php echo $val['first_name'] . ' ' . $val['last_name']; ?></option>
+        <?php
 
           }
           ?>
-        
+
       </select>
     </p>
 
@@ -691,7 +691,7 @@ if (@$_GET['action'] == "sendCustom_Notification") {
   <form action="dashboard.php?p=custom_notification&action=Send_Custom_notification_section" enctype="multipart/form-data" method="post" novalidate="novalidate">
     <input type="hidden" id='custom_notification_id' name="custom_notification_id" value="<?php echo $id; ?>">
     <p style="width: 100%;" class="left">
-      <select  multiple name="fb_id[]" class="cityies_selection" style="font-weight: 400;font-size: 12px;width: 100%;border: 1px solid #ccc;border-radius: 3px;color: #555;box-shadow: inset 0 1px 1px rgba(0,0,0,0.075);" size="5" required>
+      <select multiple name="fb_id[]" class="cityies_selection" style="font-weight: 400;font-size: 12px;width: 100%;border: 1px solid #ccc;border-radius: 3px;color: #555;box-shadow: inset 0 1px 1px rgba(0,0,0,0.075);" size="5" required>
         <!-- <option value="">Select Users</option> -->
         <option value="all">All Users</option>
         <option value="all_login">Logged IN Users</option>
@@ -720,12 +720,12 @@ if (@$_GET['action'] == "sendCustom_Notification") {
 
           foreach ($json_data['msg'] as $str => $val) {
             ?>
-          <option value="<?php echo $val['fb_id']; ?>"><?php echo $val['first_name'].' '.$val['last_name']; ?></option>
-          <?php
+          <option value="<?php echo $val['fb_id']; ?>"><?php echo $val['first_name'] . ' ' . $val['last_name']; ?></option>
+        <?php
 
           }
           ?>
-        
+
       </select>
     </p>
     <p style="width: 100%;" class="right">
@@ -736,7 +736,7 @@ if (@$_GET['action'] == "sendCustom_Notification") {
 
 <?php
 
-}else
+} else
 if (@$_GET['action'] == "send_notification_of_video") {
 
   $id = @$_GET['id'];
@@ -756,7 +756,7 @@ if (@$_GET['action'] == "send_notification_of_video") {
     </p>
 
     <p style="width: 100%;" class="left">
-      <select  multiple name="fb_id[]" class="cityies_selection" style="font-weight: 400;font-size: 12px;width: 100%;border: 1px solid #ccc;border-radius: 3px;color: #555;box-shadow: inset 0 1px 1px rgba(0,0,0,0.075);" size="5" required>
+      <select multiple name="fb_id[]" class="cityies_selection" style="font-weight: 400;font-size: 12px;width: 100%;border: 1px solid #ccc;border-radius: 3px;color: #555;box-shadow: inset 0 1px 1px rgba(0,0,0,0.075);" size="5" required>
         <!-- <option value="">Select Users</option> -->
         <option value="all">All Users</option>
         <option value="all_login">Logged IN Users</option>
@@ -785,12 +785,12 @@ if (@$_GET['action'] == "send_notification_of_video") {
 
           foreach ($json_data['msg'] as $str => $val) {
             ?>
-          <option value="<?php echo $val['fb_id']; ?>"><?php echo $val['first_name'].' '.$val['last_name']; ?></option>
-          <?php
+          <option value="<?php echo $val['fb_id']; ?>"><?php echo $val['first_name'] . ' ' . $val['last_name']; ?></option>
+        <?php
 
           }
           ?>
-        
+
       </select>
     </p>
     <p style="width: 100%;" class="right">
@@ -801,7 +801,7 @@ if (@$_GET['action'] == "send_notification_of_video") {
 
 <?php
 
-}else
+} else
 if (@$_GET['action'] == "AddSetting") {
 
 
@@ -829,7 +829,7 @@ if (@$_GET['action'] == "AddSetting") {
 
 <?php
 
-}else
+} else
 if (@$_GET['action'] == "editSetting") {
 
   $id = @$_GET['id'];
@@ -884,7 +884,7 @@ if (@$_GET['action'] == "editSetting") {
 
 <?php
 
-}else
+} else
 if (@$_GET['action'] == "AddSubFilter") {
 
   $id = @$_GET['filter_id'];
@@ -939,7 +939,7 @@ if (@$_GET['action'] == "AddSubFilter") {
 
 <?php
 
-}else
+} else
 if (@$_GET['action'] == "editImageFilter") {
 
   $id = @$_GET['id'];
@@ -994,7 +994,7 @@ if (@$_GET['action'] == "editImageFilter") {
 
 <?php
 
-}else
+} else
 if (@$_GET['action'] == "AddFilter") {
 
 
@@ -1013,9 +1013,9 @@ if (@$_GET['action'] == "AddFilter") {
       <input name="description" required="" type="text">
       <label alt="Description" placeholder="Description"></label>
     </p>
-  
+
     <p style="">
-      <input name="main_image" id="main_image" required="" type="file" >
+      <input name="main_image" id="main_image" required="" type="file">
       <label alt="Image File" placeholder="Image File"></label>
     </p>
     <p style="width: 100%;" class="left">
@@ -1024,6 +1024,14 @@ if (@$_GET['action'] == "AddFilter") {
         <option value="1">Active</option>
         <option value="0">Inactive</option>
       </select>
+    </p>
+    
+    <p style="width: 100%;" class="left">
+    <p style="width: 100%;" class="left">Is GIF</p>
+      <input type="radio" id="is_gif_yes" name="is_gif" value="1" required="" style="width:auto;">
+      <label for="is_gif_yes">YES</label>
+      <input type="radio" id="is_gif_no" name="is_gif" value="0" required=""  style="width:auto;">
+      <label for="is_gif_no">No</label>
     </p>
 
     <p style="width: 100%;" class="right">
@@ -1034,7 +1042,7 @@ if (@$_GET['action'] == "AddFilter") {
 
 <?php
 
-}else
+} else
 if (@$_GET['action'] == "editFilter") {
 
   $id = @$_GET['id'];
@@ -1086,23 +1094,39 @@ if (@$_GET['action'] == "editFilter") {
       <label alt="Image File" placeholder="Image File"></label>
     </p>
     <p style="">
-    <img src="<?php echo $json_data['msg'][0]['main_image']; ?>" style="width: 60px;">
+      <img src="<?php echo $json_data['msg'][0]['main_image']; ?>" style="width: 60px;">
     </p>
     <p style="width: 100%;" class="left">
       <select name="status" class="cityies_selection" style="font-weight: 400;font-size: 12px;width: 100%;padding: 12px;border: 1px solid #ccc;border-radius: 3px;color: #555;box-shadow: inset 0 1px 1px rgba(0,0,0,0.075);" required>
         <!-- <option value="">Select Users</option> -->
-        <?php 
-        if(isset($json_data['msg'][0]['status']) && $json_data['msg'][0]['status'] == '1'){
-          $active = "selected";
-          $inactive = "";
-        }else{
-          $active = "";
-          $inactive = "selected";
-        }
-        ?>
+        <?php
+          if (isset($json_data['msg'][0]['status']) && $json_data['msg'][0]['status'] == '1') {
+            $active = "selected";
+            $inactive = "";
+          } else {
+            $active = "";
+            $inactive = "selected";
+          }
+          ?>
         <option value="1" <?php echo $active; ?>>Active</option>
         <option value="0" <?php echo $inactive; ?>>Inactive</option>
       </select>
+    </p>
+    <p style="width: 100%;" class="left">
+    <p style="width: 100%;" class="left">Is GIF</p>
+    <?php
+          if (isset($json_data['msg'][0]['is_gif']) && $json_data['msg'][0]['is_gif'] == '1') {
+            $yes_checked = "checked";
+            $no_checked = "";
+          } else {
+            $yes_checked = "";
+            $no_checked = "checked";
+          }
+          ?>
+      <input type="radio" id="is_gif_yes" name="is_gif" value="1" required="" style="width:auto;" <?php echo $yes_checked; ?>>
+      <label for="is_gif_yes">YES</label>
+      <input type="radio" id="is_gif_no" name="is_gif" value="0" required=""  style="width:auto;" <?php echo $no_checked; ?>>
+      <label for="is_gif_no">No</label>
     </p>
     <p style="width: 100%;" class="right">
       <input value="Send Now" class="buttoncolor" style="border: 0px;" type="submit">

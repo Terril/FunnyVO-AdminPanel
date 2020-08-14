@@ -28,7 +28,7 @@ if (isset($_GET['action'])) {
 
 <!-- Modal 7 (Ajax Modal)-->
 <div class="PopupParent" id="PopupParent" style="background: rgba(0, 0, 0, 0.3); display: none;  position:  fixed; top: 0;width:  100%;height:  100%;z-index:  99999;">
-	<div class="wdth" style="width:40%; margin-top:60px;background:  white;padding: 20px 20px; height: 450px;  border-radius:  5px;">
+	<div class="wdth" style="width:40%; margin-top:60px;background:  white;padding: 20px 20px; height: 500px;  border-radius:  5px;">
 
 		<button type="button" onclick="ClosePopup();" style="position: absolute; margin-top: -37px; margin-left: 500px; border: 0;border-radius: 50%;font-size: 21px;width: 30px;height: 30px; z-index: 99999;" class='buttonColor'>&times;</button>
 		<div class="modal-content" style="">

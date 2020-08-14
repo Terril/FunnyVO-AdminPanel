@@ -54,6 +54,7 @@ if( isset($_SESSION['id']))
 			$description=$_POST['description'];
 			$status=$_POST['status'];
 			$id = htmlspecialchars($_POST['id'], ENT_QUOTES);
+			$is_gif = $_POST['is_gif'];
     	    
     	    $headers = array(
 				"Accept: application/json",
@@ -66,7 +67,8 @@ if( isset($_SESSION['id']))
 				"name" => $name,
 				"description" => $description,
 				"main_image" => $main_image,
-				"status" => $status
+				"status" => $status,
+				"is_gif" => $is_gif
 
 			);
             $ch = curl_init( $baseurl.'filter_edit' );
@@ -113,6 +115,7 @@ if( isset($_SESSION['id']))
 			$name=$_POST['name'];
 			$description=$_POST['description'];
 			$status=$_POST['status'];
+			$is_gif = $_POST['is_gif'];
     	    
     	    $headers = array(
 				"Accept: application/json",
@@ -124,7 +127,8 @@ if( isset($_SESSION['id']))
 				"name" => $name,
 				"description" => $description,
 				"main_image" => $main_image,
-				"status" => $status
+				"status" => $status,
+				"is_gif" => $is_gif
 
 			);
             $ch = curl_init( $baseurl.'add_filter' );
@@ -295,6 +299,7 @@ if( isset($_SESSION['id']))
 	                <th>Name</th>
 					<th>Description</th>
 					<th>Main Image</th>
+					<th>Is GIF</th>
 					<th>Status</th>
 	                <th>Action</th>
 	            </tr>
@@ -325,6 +330,15 @@ if( isset($_SESSION['id']))
 				    <td>
 					<img src="<?php echo $val['main_image']; ?>" style="width: 60px;">
 						
+					</td>
+					<td>
+					<?php if(isset($val['is_gif']) && $val['is_gif'] == '1'){
+						$is_gif = "Yes";
+					}else{
+						$is_gif = "No";
+					}
+					echo $is_gif;
+					?>
 					</td>
 					<td>
 					<?php if(isset($val['status']) && $val['status'] == '1'){
@@ -383,6 +397,7 @@ if( isset($_SESSION['id']))
 				<th>Name</th>
 				<th>Description</th>
 				<th>Main Image</th>
+				<th>Is GIF</th>
 				<th>Status</th>
 				<th>Action</th>
 	            </tr>
