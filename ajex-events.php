@@ -521,9 +521,10 @@ if (@$_GET['action'] == "AddCustom_Notification") {
       <input name="title" required="" type="text">
       <label alt="Title" placeholder="Title"></label>
     </p>
-    <p style="margin-bottom: 30px; height: 130px;">
-      <input name="body" required="" type="text">
-      <label alt="Description" placeholder="Description"></label>
+    <p style="margin-bottom: 30px;">
+    <textarea name="body" required="" rows="3"></textarea>
+    <label alt="Description" placeholder="Description"></label>
+      
     </p>
 
     <p style="margin-bottom: 30px;">

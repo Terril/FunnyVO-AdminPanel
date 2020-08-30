@@ -3574,20 +3574,23 @@ button {
 
 input[type="input"],
 input[type="email"],
-input[type="password"] {
+input[type="password"],
+textarea[required] {
     margin: 0 0 0em;
     padding: 1em;
 }
 
 input[type="text"][required]:focus,
 input[type="email"][required]:focus,
-input[type="password"][required]:focus {
+input[type="password"][required]:focus,
+textarea[required]:focus {
     border-color: #BE2C2C;
 }
 
 input[type="text"][required]:focus+label[placeholder]:before,
 input[type="email"][required]:focus+label[placeholder]:before,
-input[type="password"][required]:focus+label[placeholder]:before {
+input[type="password"][required]:focus+label[placeholder]:before,
+textarea[required]:focus+label[placeholder]:before {
     color: #BE2C2C;
 }
 
@@ -3601,9 +3604,16 @@ input[type="password"][required]:valid+label[placeholder]:before {
     transform: translate(0, -1.3em) scale(0.9, 0.9);
 }
 
+textarea[required]:focus+label[placeholder]:before,
+textarea[required]:valid+label[placeholder]:before {
+    transition-duration: .2s;
+    transform: translate(0, -3.05em) scale(0.9, 0.9);
+}
+
 input[type="text"][required]:invalid+label[placeholder][alt]:before,
 input[type="email"][required]:invalid+label[placeholder][alt]:before,
-input[type="password"][required]:invalid+label[placeholder][alt]:before {
+input[type="password"][required]:invalid+label[placeholder][alt]:before,
+textarea[required]:invalid+label[placeholder][alt]:before {
     content: attr(alt);
 }
 
@@ -3612,15 +3622,23 @@ input[type="email"][required]+label[placeholder],
 input[type="password"][required]+label[placeholder] {
     display: block;
     pointer-events: none;
-    //line-height: 1em;
     line-height: 22px;
     margin-top: calc(-2em - 5px);
     margin-bottom: calc((3em - 1em) + -6px);
 }
 
+textarea[required]+label[placeholder] {
+    display: block;
+    pointer-events: none;
+    line-height: 0px;
+    margin-top: calc(-3em - 5px);
+    margin-bottom: calc((6em - 1em) + -6px);
+}
+
 input[type="text"][required]+label[placeholder]:before,
 input[type="email"][required]+label[placeholder]:before,
-input[type="password"][required]+label[placeholder]:before {
+input[type="password"][required]+label[placeholder]:before,
+textarea[required]+label[placeholder]:before {
     content: attr(placeholder);
     display: inline-block;
     margin: -5px calc(1em + -6px);
