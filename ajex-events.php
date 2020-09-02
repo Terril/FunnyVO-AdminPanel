@@ -216,22 +216,24 @@ if (@$_GET['action'] == "editSound") {
 
         $return = curl_exec($ch);
 
-        $json_data = json_decode($return, true);
+        $json_data_new = json_decode($return, true);
 
         $curl_error = curl_error($ch);
         $http_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-        if ($json_data['code'] == "200") { ?>
-        <select name="section" style="margin-bottom: 30px;">
+        ?>
+      <select name="section" style="margin-bottom: 30px;">
+        <?php
+          if ($json_data_new['code'] == "200") { ?>
           <?php
-              foreach ($json_data['msg'] as $str => $val) { ?>
+              foreach ($json_data_new['msg'] as $str => $val) { ?>
             <option <?php if ($json_data['msg'][0]['section'] == $val['id']) { ?> selected="selected" <?php } ?> value='<?php echo $val['id']; ?>'>
               <?php echo $val['section_name']; ?>
             </option>
         <?php
             }
           } ?>
-        </select>
-        <label alt="Category Name" placeholder="Category Name"></label>
+      </select>
+      <label alt="Category Name" placeholder="Category Name"></label>
 
 
     </p>
@@ -522,9 +524,9 @@ if (@$_GET['action'] == "AddCustom_Notification") {
       <label alt="Title" placeholder="Title"></label>
     </p>
     <p style="margin-bottom: 30px;">
-    <textarea name="body" required="" rows="3"></textarea>
-    <label alt="Description" placeholder="Description"></label>
-      
+      <textarea name="body" required="" rows="3"></textarea>
+      <label alt="Description" placeholder="Description"></label>
+
     </p>
 
     <p style="margin-bottom: 30px;">
@@ -1026,12 +1028,12 @@ if (@$_GET['action'] == "AddFilter") {
         <option value="0">Inactive</option>
       </select>
     </p>
-    
+
     <p style="width: 100%;" class="left">
-    <p style="width: 100%;" class="left">Is GIF</p>
+      <p style="width: 100%;" class="left">Is GIF</p>
       <input type="radio" id="is_gif_yes" name="is_gif" value="1" required="" style="width:auto;">
       <label for="is_gif_yes">YES</label>
-      <input type="radio" id="is_gif_no" name="is_gif" value="0" required=""  style="width:auto;">
+      <input type="radio" id="is_gif_no" name="is_gif" value="0" required="" style="width:auto;">
       <label for="is_gif_no">No</label>
     </p>
 
@@ -1114,19 +1116,19 @@ if (@$_GET['action'] == "editFilter") {
       </select>
     </p>
     <p style="width: 100%;" class="left">
-    <p style="width: 100%;" class="left">Is GIF</p>
-    <?php
-          if (isset($json_data['msg'][0]['is_gif']) && $json_data['msg'][0]['is_gif'] == '1') {
-            $yes_checked = "checked";
-            $no_checked = "";
-          } else {
-            $yes_checked = "";
-            $no_checked = "checked";
-          }
-          ?>
+      <p style="width: 100%;" class="left">Is GIF</p>
+      <?php
+        if (isset($json_data['msg'][0]['is_gif']) && $json_data['msg'][0]['is_gif'] == '1') {
+          $yes_checked = "checked";
+          $no_checked = "";
+        } else {
+          $yes_checked = "";
+          $no_checked = "checked";
+        }
+        ?>
       <input type="radio" id="is_gif_yes" name="is_gif" value="1" required="" style="width:auto;" <?php echo $yes_checked; ?>>
       <label for="is_gif_yes">YES</label>
-      <input type="radio" id="is_gif_no" name="is_gif" value="0" required=""  style="width:auto;" <?php echo $no_checked; ?>>
+      <input type="radio" id="is_gif_no" name="is_gif" value="0" required="" style="width:auto;" <?php echo $no_checked; ?>>
       <label for="is_gif_no">No</label>
     </p>
     <p style="width: 100%;" class="right">
